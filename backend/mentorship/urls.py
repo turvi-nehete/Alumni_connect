@@ -12,3 +12,4 @@ urlpatterns = [
     path("slots/<int:slot_id>/book/", BookSlotView.as_view()),
     path("sessions/", MyMentorshipSessionsView.as_view()),
 ]
+

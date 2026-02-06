@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'channels',
-
+    'rest_framework_simplejwt',
     # Core apps
     'accounts',
     'profiles',
@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'messaging',
     'notifications',
     'analytics',
+    'chatbot',
 ]
 
 MIDDLEWARE = [
@@ -138,13 +139,21 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AUTH_USER_MODEL = 'accounts.User'
 from datetime import timedelta
+
+AUTH_USER_MODEL = 'accounts.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
 ASGI_APPLICATION = "alumniconnect.asgi.application"
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
