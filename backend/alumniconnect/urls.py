@@ -29,9 +29,19 @@ urlpatterns = [
     path('api/events/',include('events.urls')),
     path('api/notifications/',include('notifications.urls')),
     path("api/analytics/", include("analytics.urls")),
-    path("api/chatbot/", include("chatbot.urls")),
-
-
-
-
+    path("api/achievements/", include("achievements.urls")),
 ]
+try:
+    urlpatterns += [
+        path("api/chatbot/", include("chatbot.urls")),
+    ]
+except ModuleNotFoundError:
+    pass
+
+
+
+
+
+
+
+
