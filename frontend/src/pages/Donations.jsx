@@ -26,15 +26,15 @@ function Donations() {
     <div className="space-y-8">
 
       {/* TOTAL DONATIONS COUNTER */}
-      <section className="relative overflow-hidden rounded-3xl
+      <section className="relative overflow-hidden rounded-2xl sm:rounded-3xl
       bg-gradient-to-br from-[var(--color-accent-indigo)]/20
       via-[var(--color-accent-purple)]/10
       to-transparent
-      px-10 py-8 shadow-[0_0_60px_rgba(99,102,241,0.15)]">
-        <h1 className="text-4xl font-bold tracking-tight text-[var(--color-text-primary)]">
+      px-6 py-6 sm:px-10 sm:py-8 shadow-[0_0_60px_rgba(99,102,241,0.15)]">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[var(--color-text-primary)]">
           ₹ {totalRaised.toLocaleString('en-IN')} Raised
         </h1>
-        <p className="mt-2 text-base font-medium text-[var(--color-text-secondary)]">
+        <p className="mt-2 text-sm sm:text-base font-medium text-[var(--color-text-secondary)]">
           Help us reach our goal of ₹ {goal.toLocaleString('en-IN')}
         </p>
         <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full
@@ -42,13 +42,13 @@ function Donations() {
       </section>
 
       {/* PROGRESS BAR */}
-      <section className="rounded-3xl border border-[var(--color-border-soft)]
-      bg-[var(--color-bg-card)] p-8 shadow-md">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
+      <section className="rounded-2xl sm:rounded-3xl border border-[var(--color-border-soft)]
+      bg-[var(--color-bg-card)] p-6 sm:p-8 shadow-md">
+        <div className="flex items-center justify-between mb-4 gap-2">
+          <h2 className="text-base sm:text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
             Campaign Progress
           </h2>
-          <span className="text-sm font-semibold text-[var(--color-accent-purple)]">
+          <span className="text-sm font-semibold text-[var(--color-accent-purple)] flex-shrink-0">
             {Math.round(progressPercent)}%
           </span>
         </div>
@@ -98,12 +98,12 @@ function Donations() {
         ].map((stat, index) => (
           <div
             key={index}
-            className="group relative rounded-3xl border border-[var(--color-border-soft)]
-            bg-[var(--color-bg-card)] p-6 shadow-md transition-all duration-300
-            hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(124,58,237,0.25)]"
+            className="group relative rounded-2xl sm:rounded-3xl border border-[var(--color-border-soft)]
+            bg-[var(--color-bg-card)] p-4 sm:p-6 shadow-md transition-all duration-300
+            hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(124,58,237,0.25)]"
           >
-            <div className="text-3xl mb-3">{stat.icon}</div>
-            <p className={`text-3xl font-extrabold tracking-tight ${stat.color}`}>
+            <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">{stat.icon}</div>
+            <p className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${stat.color}`}>
               {stat.value}
             </p>
             <p className="mt-2 text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide">
@@ -123,9 +123,9 @@ function Donations() {
 
         {/* RECENT DONORS FEED */}
         <div className="lg:col-span-2 space-y-6">
-          <section className="rounded-3xl border border-[var(--color-border-soft)]
-          bg-[var(--color-bg-card)] p-8 shadow-md">
-            <h2 className="text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
+          <section className="rounded-2xl sm:rounded-3xl border border-[var(--color-border-soft)]
+          bg-[var(--color-bg-card)] p-6 sm:p-8 shadow-md">
+            <h2 className="text-base sm:text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
               Recent Donors
             </h2>
             <div className="mt-6 space-y-4">
@@ -133,15 +133,15 @@ function Donations() {
                 <div
                   key={index}
                   className="flex items-center justify-between rounded-xl border border-[var(--color-border-soft)]
-                  bg-[var(--color-bg-main)] p-4 transition-all duration-300
-                  hover:border-[var(--color-accent-purple)]/50 hover:shadow-md"
+                  bg-[var(--color-bg-main)] p-3 sm:p-4 transition-all duration-300
+                  hover:border-[var(--color-accent-purple)]/50 hover:shadow-md gap-3"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-full bg-gradient-to-tr from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] flex items-center justify-center text-sm font-bold text-white">
+                  <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                    <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-gradient-to-tr from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] flex items-center justify-center text-xs sm:text-sm font-bold text-white flex-shrink-0">
                       {donor.name.charAt(0)}
                     </div>
-                    <div>
-                      <p className="text-sm font-bold text-[var(--color-text-primary)]">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold text-[var(--color-text-primary)] truncate">
                         {donor.name}
                       </p>
                       <p className="text-xs text-[var(--color-text-secondary)]">
@@ -149,7 +149,7 @@ function Donations() {
                       </p>
                     </div>
                   </div>
-                  <p className="text-lg font-bold text-[var(--color-accent-purple)]">
+                  <p className="text-base sm:text-lg font-bold text-[var(--color-accent-purple)] flex-shrink-0">
                     {donor.amount}
                   </p>
                 </div>
@@ -160,12 +160,12 @@ function Donations() {
 
         {/* DONATE NOW CTA */}
         <div className="space-y-6">
-          <section className="rounded-3xl border border-[var(--color-accent-purple)]
+          <section className="rounded-2xl sm:rounded-3xl border border-[var(--color-accent-purple)]
           bg-gradient-to-br from-[var(--color-accent-indigo)]/10
           via-[var(--color-accent-purple)]/10
           to-transparent
-          p-8 shadow-[0_0_40px_rgba(124,58,237,0.2)]">
-            <h2 className="text-xl font-bold tracking-wide text-[var(--color-text-primary)]">
+          p-6 sm:p-8 shadow-[0_0_40px_rgba(124,58,237,0.2)]">
+            <h2 className="text-lg sm:text-xl font-bold tracking-wide text-[var(--color-text-primary)]">
               Make a Difference
             </h2>
             <p className="mt-3 text-sm text-[var(--color-text-secondary)]">
@@ -174,7 +174,7 @@ function Donations() {
             <button className="mt-6 w-full rounded-full bg-gradient-to-r
             from-[var(--color-accent-indigo)]
             to-[var(--color-accent-purple)]
-            px-6 py-3 text-base font-semibold text-white
+            px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white
             shadow-[0_0_25px_rgba(99,102,241,0.5)]
             transition-all duration-300
             hover:scale-105 hover:shadow-[0_0_35px_rgba(124,58,237,0.8)]">

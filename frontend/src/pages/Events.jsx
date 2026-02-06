@@ -73,7 +73,7 @@ function Events() {
   return (
     <div className="space-y-8">
 
-      <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">
+      <h1 className="text-xl sm:text-2xl font-bold text-[var(--color-text-primary)]">
         Upcoming Events
       </h1>
 
@@ -84,7 +84,7 @@ function Events() {
           return (
             <div
               key={event.id}
-              className={`rounded-3xl border p-8 transition-all duration-300
+              className={`rounded-2xl sm:rounded-3xl border p-5 sm:p-8 transition-all duration-300
               ${isRegistered
                 ? "border-[var(--color-accent-purple)] shadow-[0_0_40px_rgba(124,58,237,0.25)]"
                 : "border-[var(--color-border-soft)] shadow-md"
@@ -93,13 +93,13 @@ function Events() {
             >
 
               {/* HEADER WITH ACTIONS */}
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <h2 className="text-xl font-bold text-[var(--color-text-primary)]">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-lg sm:text-xl font-bold text-[var(--color-text-primary)]">
                     {event.title}
                   </h2>
                 </div>
-                <div className="flex gap-2 ml-4">
+                <div className="flex gap-2 flex-shrink-0">
                   <button
                     onClick={() => toggleBookmark(event.id)}
                     className={`rounded-full p-2 transition-all duration-300 ${
@@ -122,25 +122,25 @@ function Events() {
               </div>
 
               {/* META */}
-              <div className="mt-3 flex flex-wrap gap-6 text-sm font-medium text-[var(--color-text-secondary)]">
+              <div className="mt-3 flex flex-wrap gap-3 sm:gap-6 text-xs sm:text-sm font-medium text-[var(--color-text-secondary)]">
                 <span>📅 {event.date}</span>
                 <span>📍 {event.location}</span>
                 <span>👥 {event.attendees + (isRegistered ? 1 : 0)} attending</span>
               </div>
 
               {/* ATTENDEE AVATARS ROW */}
-              <div className="mt-4 flex items-center gap-3">
+              <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
                 <div className="flex -space-x-2">
                   {event.attendeeAvatars.slice(0, 5).map((avatar, idx) => (
                     <div
                       key={idx}
-                      className="h-10 w-10 rounded-full border-2 border-[var(--color-bg-card)] bg-gradient-to-tr from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] flex items-center justify-center text-xs font-bold text-white"
+                      className="h-8 w-8 sm:h-10 sm:w-10 rounded-full border-2 border-[var(--color-bg-card)] bg-gradient-to-tr from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] flex items-center justify-center text-xs font-bold text-white"
                     >
                       {avatar}
                     </div>
                   ))}
                   {event.attendees > 5 && (
-                    <div className="h-10 w-10 rounded-full border-2 border-[var(--color-bg-card)] bg-[var(--color-bg-main)] flex items-center justify-center text-xs font-bold text-[var(--color-text-secondary)]">
+                    <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full border-2 border-[var(--color-bg-card)] bg-[var(--color-bg-main)] flex items-center justify-center text-xs font-bold text-[var(--color-text-secondary)]">
                       +{event.attendees - 5}
                     </div>
                   )}
@@ -178,7 +178,7 @@ function Events() {
               <div className="mt-6">
                 <button
                   onClick={() => handleRegister(event.id)}
-                  className={`rounded-full px-6 py-2 text-sm font-semibold transition-all duration-300
+                  className={`w-full sm:w-auto rounded-full px-5 sm:px-6 py-2 text-sm font-semibold transition-all duration-300
                   ${isRegistered
                     ? "bg-emerald-500 text-white shadow-[0_0_25px_rgba(16,185,129,0.6)] hover:scale-105"
                     : "bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] text-white shadow-[0_0_25px_rgba(99,102,241,0.5)] hover:scale-105 hover:shadow-[0_0_35px_rgba(124,58,237,0.8)]"

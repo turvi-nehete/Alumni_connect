@@ -46,12 +46,12 @@ function Messaging() {
   const [selectedConversation, setSelectedConversation] = useState(1)
 
   return (
-    <div className="grid h-[calc(100vh-200px)] gap-6 lg:grid-cols-12">
+    <div className="flex flex-col lg:grid lg:grid-cols-12 gap-4 sm:gap-6 min-h-[calc(100vh-200px)]">
       
       {/* ONLINE USERS SIDEBAR */}
-      <div className="lg:col-span-2 space-y-4">
-        <div className="rounded-2xl border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] p-5 shadow-md">
-          <h2 className="text-sm font-bold uppercase tracking-wide text-[var(--color-text-primary)]">
+      <div className="lg:col-span-2 order-3 lg:order-1">
+        <div className="rounded-2xl border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] p-4 sm:p-5 shadow-md">
+          <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wide text-[var(--color-text-primary)]">
             Online Now
           </h2>
           <div className="mt-4 space-y-3">
@@ -83,9 +83,9 @@ function Messaging() {
       </div>
 
       {/* CONVERSATIONS LIST */}
-      <div className="lg:col-span-4 space-y-4">
-        <div className="rounded-2xl border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] p-5 shadow-md">
-          <h2 className="text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
+      <div className="lg:col-span-4 order-1 lg:order-2">
+        <div className="rounded-2xl border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] p-4 sm:p-5 shadow-md">
+          <h2 className="text-base sm:text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
             Recent Conversations
           </h2>
           <div className="mt-4 space-y-2">
@@ -146,8 +146,8 @@ function Messaging() {
       </div>
 
       {/* MESSAGE PREVIEW CONTAINER */}
-      <div className="lg:col-span-6">
-        <div className="h-full rounded-2xl border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] p-6 shadow-md flex flex-col">
+      <div className="lg:col-span-6 order-2 lg:order-3">
+        <div className="min-h-[400px] lg:h-full rounded-2xl border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] p-4 sm:p-6 shadow-md flex flex-col">
           <div className="flex items-center gap-3 border-b border-[var(--color-border-soft)] pb-4">
             <div className="h-12 w-12 rounded-full bg-gradient-to-tr from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] flex items-center justify-center text-sm font-bold text-white">
               {MOCK_CONVERSATIONS.find(c => c.id === selectedConversation)?.name.charAt(0) || "R"}
@@ -202,13 +202,13 @@ function Messaging() {
           )}
 
           {/* INPUT AREA */}
-          <div className="mt-4 flex gap-3">
+          <div className="mt-4 flex gap-2 sm:gap-3">
             <input
               type="text"
               placeholder="Type a message..."
-              className="flex-1 rounded-xl border border-[var(--color-border-soft)] bg-[var(--color-bg-main)] px-4 py-2 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus:border-[var(--color-accent-purple)] focus:outline-none"
+              className="flex-1 rounded-xl border border-[var(--color-border-soft)] bg-[var(--color-bg-main)] px-3 sm:px-4 py-2 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus:border-[var(--color-accent-purple)] focus:outline-none"
             />
-            <button className="rounded-xl bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] px-6 py-2 text-sm font-semibold text-white shadow-[0_0_20px_rgba(99,102,241,0.5)] transition hover:shadow-[0_0_30px_rgba(124,58,237,0.7)]">
+            <button className="rounded-xl bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] px-4 sm:px-6 py-2 text-sm font-semibold text-white shadow-[0_0_20px_rgba(99,102,241,0.5)] transition hover:shadow-[0_0_30px_rgba(124,58,237,0.7)] flex-shrink-0">
               Send
             </button>
           </div>

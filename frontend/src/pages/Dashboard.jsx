@@ -7,17 +7,17 @@ function Dashboard() {
     <div className="space-y-12">
 
       {/* ================= HERO ================= */}
-      <section className="relative overflow-hidden rounded-3xl
+      <section className="relative overflow-hidden rounded-2xl sm:rounded-3xl
       bg-gradient-to-br from-[var(--color-accent-indigo)]/20
       via-[var(--color-accent-purple)]/10
       to-transparent
-      px-10 py-8 shadow-[0_0_60px_rgba(99,102,241,0.15)]">
+      px-6 py-6 sm:px-10 sm:py-8 shadow-[0_0_60px_rgba(99,102,241,0.15)]">
 
-        <h1 className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)]">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--color-text-primary)]">
           Welcome back,
         </h1>
 
-        <p className="mt-2 text-base font-medium text-[var(--color-text-secondary)]">
+        <p className="mt-2 text-sm sm:text-base font-medium text-[var(--color-text-secondary)]">
           Here’s what’s happening across your alumni network.
         </p>
 
@@ -58,12 +58,12 @@ function Dashboard() {
           <div
             key={index}
             onClick={() => navigate(item.route)}
-            className="group relative cursor-pointer rounded-3xl
+            className="group relative cursor-pointer rounded-2xl sm:rounded-3xl
             border border-[var(--color-border-soft)]
             bg-[var(--color-bg-card)]
-            p-7 shadow-md
+            p-5 sm:p-7 shadow-md
             transition-all duration-300
-            hover:-translate-y-2
+            hover:-translate-y-1 sm:hover:-translate-y-2
             hover:shadow-[0_0_40px_rgba(124,58,237,0.25)]">
 
             {/* Accent Glow Bar */}
@@ -72,11 +72,11 @@ function Dashboard() {
             to-[var(--color-accent-purple)]
             opacity-0 transition group-hover:opacity-100" />
 
-            <p className={`text-4xl font-extrabold tracking-tight ${item.color}`}>
+            <p className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${item.color}`}>
               {item.value}
             </p>
 
-            <p className="mt-2 text-sm font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide">
+            <p className="mt-2 text-xs sm:text-sm font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide">
               {item.label}
             </p>
           </div>
@@ -116,24 +116,24 @@ function Dashboard() {
         ].map((item, index) => (
           <div
             key={index}
-            className="group relative rounded-3xl
+            className="group relative rounded-2xl sm:rounded-3xl
             border border-[var(--color-border-soft)]
             bg-[var(--color-bg-card)]
-            p-6 shadow-md
+            p-4 sm:p-6 shadow-md
             transition-all duration-300
             hover:-translate-y-1
             hover:shadow-[0_0_30px_rgba(124,58,237,0.2)]">
 
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <p className={`text-3xl font-extrabold tracking-tight ${item.color}`}>
+              <div className="flex items-start justify-between gap-2">
+              <div className="flex-1 min-w-0">
+                <p className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${item.color}`}>
                   {item.value}
                 </p>
-                <p className="mt-2 text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide">
+                <p className="mt-2 text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide break-words">
                   {item.label}
                 </p>
               </div>
-              <div className="flex items-center gap-1 text-xs font-bold text-emerald-400">
+              <div className="flex items-center gap-1 text-xs font-bold text-emerald-400 flex-shrink-0">
                 <span>▲</span>
                 <span>{item.trend}</span>
               </div>
@@ -159,11 +159,11 @@ function Dashboard() {
         <div className="space-y-8 lg:col-span-2">
 
           {/* MINI CHART CONTAINER */}
-          <section className="rounded-3xl border border-[var(--color-border-soft)]
-          bg-[var(--color-bg-card)] p-8 shadow-md transition-all duration-300
+          <section className="rounded-2xl sm:rounded-3xl border border-[var(--color-border-soft)]
+          bg-[var(--color-bg-card)] p-6 sm:p-8 shadow-md transition-all duration-300
           hover:shadow-[0_0_30px_rgba(124,58,237,0.15)]">
 
-            <h2 className="text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
+            <h2 className="text-base sm:text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
               Network Activity
             </h2>
 
@@ -202,14 +202,14 @@ function Dashboard() {
           {/* EVENTS */}
           <section
             onClick={() => navigate("/events")}
-            className="group relative cursor-pointer rounded-3xl
+            className="group relative cursor-pointer rounded-2xl sm:rounded-3xl
             border border-[var(--color-border-soft)]
             bg-[var(--color-bg-card)]
-            p-8 shadow-md transition-all duration-300
-            hover:-translate-y-2
+            p-6 sm:p-8 shadow-md transition-all duration-300
+            hover:-translate-y-1 sm:hover:-translate-y-2
             hover:shadow-[0_0_40px_rgba(124,58,237,0.2)]">
 
-            <h2 className="text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
+            <h2 className="text-base sm:text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
               Upcoming Events
             </h2>
 
@@ -238,14 +238,14 @@ function Dashboard() {
           {/* JOBS */}
           <section
             onClick={() => navigate("/jobs")}
-            className="group relative cursor-pointer rounded-3xl
+            className="group relative cursor-pointer rounded-2xl sm:rounded-3xl
             border border-[var(--color-border-soft)]
             bg-[var(--color-bg-card)]
-            p-8 shadow-md transition-all duration-300
-            hover:-translate-y-2
+            p-6 sm:p-8 shadow-md transition-all duration-300
+            hover:-translate-y-1 sm:hover:-translate-y-2
             hover:shadow-[0_0_40px_rgba(16,185,129,0.2)]">
 
-            <h2 className="text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
+            <h2 className="text-base sm:text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
               Recent Jobs
             </h2>
 
@@ -267,10 +267,10 @@ function Dashboard() {
         <div className="space-y-8">
 
           {/* SOCIAL ACTIVITY FEED */}
-          <div className="rounded-3xl border border-[var(--color-border-soft)]
-          bg-[var(--color-bg-card)] p-8 shadow-md">
+          <div className="rounded-2xl sm:rounded-3xl border border-[var(--color-border-soft)]
+          bg-[var(--color-bg-card)] p-6 sm:p-8 shadow-md">
 
-            <h2 className="text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
+            <h2 className="text-base sm:text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
               Recent Network Activity
             </h2>
 
@@ -306,10 +306,10 @@ function Dashboard() {
           </div>
 
           {/* PEOPLE YOU MAY KNOW */}
-          <div className="rounded-3xl border border-[var(--color-border-soft)]
-          bg-[var(--color-bg-card)] p-8 shadow-md">
+          <div className="rounded-2xl sm:rounded-3xl border border-[var(--color-border-soft)]
+          bg-[var(--color-bg-card)] p-6 sm:p-8 shadow-md">
 
-            <h2 className="text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
+            <h2 className="text-base sm:text-lg font-bold tracking-wide text-[var(--color-text-primary)]">
               People You May Know
             </h2>
 
@@ -321,13 +321,13 @@ function Dashboard() {
                 { name: "Neha Jain", role: "Alumni — 2012" },
               ].map((person, index) => (
                 <div key={index}
-                className="flex items-center justify-between">
+                className="flex items-center justify-between gap-3">
 
-                  <div>
-                    <p className="text-sm font-bold text-[var(--color-text-primary)]">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-bold text-[var(--color-text-primary)] truncate">
                       {person.name}
                     </p>
-                    <p className="text-xs font-medium text-[var(--color-text-secondary)]">
+                    <p className="text-xs font-medium text-[var(--color-text-secondary)] truncate">
                       {person.role}
                     </p>
                   </div>
@@ -335,10 +335,11 @@ function Dashboard() {
                   <button className="rounded-full bg-gradient-to-r
                   from-[var(--color-accent-indigo)]
                   to-[var(--color-accent-purple)]
-                  px-5 py-2 text-xs font-semibold text-white
+                  px-4 sm:px-5 py-2 text-xs font-semibold text-white
                   shadow-[0_0_20px_rgba(99,102,241,0.5)]
                   transition-all duration-300
-                  hover:scale-105 hover:shadow-[0_0_35px_rgba(124,58,237,0.7)]">
+                  hover:scale-105 hover:shadow-[0_0_35px_rgba(124,58,237,0.7)]
+                  flex-shrink-0">
                     Connect
                   </button>
 

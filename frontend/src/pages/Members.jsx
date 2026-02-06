@@ -15,9 +15,9 @@ function Members() {
   const { isAuthenticated } = useAuth()
 
   return (
-    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-4">
       {MOCK_MEMBERS.map((member) => (
-        <div key={member.id} className="perspective h-[340px]">
+        <div key={member.id} className="perspective h-[320px] sm:h-[340px]">
 
           <div className="flip-card glow-card relative h-full w-full rounded-2xl border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] shadow-md">
 
@@ -25,17 +25,17 @@ function Members() {
             <div className="flip-front absolute inset-0 flex flex-col items-center justify-between rounded-2xl p-8">
 
               {/* Big Avatar */}
-              <div className="mt-6 h-36 w-36 rounded-full bg-gradient-to-tr from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] p-1">
-                <div className="flex h-full w-full items-center justify-center rounded-full bg-[var(--color-bg-main)] text-4xl font-bold text-[var(--color-accent-indigo)]">
+              <div className="mt-4 sm:mt-6 h-28 w-28 sm:h-36 sm:w-36 rounded-full bg-gradient-to-tr from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] p-1">
+                <div className="flex h-full w-full items-center justify-center rounded-full bg-[var(--color-bg-main)] text-3xl sm:text-4xl font-bold text-[var(--color-accent-indigo)]">
                   {member.name?.charAt(0)}
                 </div>
               </div>
 
               {/* Name Bottom with Subtle Glow */}
-<p className="text-lg font-semibold tracking-wide text-white 
-  [text-shadow:0_0_8px_rgba(255,255,255,0.8),0_2px_12px_rgba(0,0,0,0.8)]">
-  {member.name}
-</p>
+              <p className="text-base sm:text-lg font-semibold tracking-wide text-white 
+                [text-shadow:0_0_8px_rgba(255,255,255,0.8),0_2px_12px_rgba(0,0,0,0.8)]">
+                {member.name}
+              </p>
 
 
 
@@ -43,7 +43,7 @@ function Members() {
             </div>
 
             {/* BACK SIDE */}
-            <div className="flip-back absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-[var(--color-bg-main)] p-8 text-center">
+            <div className="flip-back absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-[var(--color-bg-main)] p-4 sm:p-8 text-center">
 
               <h2 className="text-xl font-semibold text-[var(--color-text-primary)]">
                 {member.name}
@@ -96,14 +96,14 @@ function Members() {
 
               {/* ACTION BUTTONS */}
               {isAuthenticated && (
-                <div className="mt-6 flex w-full gap-3">
+                <div className="mt-4 sm:mt-6 flex w-full gap-2 sm:gap-3">
                   <button
-                    className="flex-1 rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] px-4 py-2 text-sm font-semibold text-white shadow-[0_0_18px_rgba(99,102,241,0.6)] transition hover:shadow-[0_0_24px_rgba(124,58,237,0.8)]"
+                    className="flex-1 rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-[0_0_18px_rgba(99,102,241,0.6)] transition hover:shadow-[0_0_24px_rgba(124,58,237,0.8)]"
                   >
                     Connect
                   </button>
                   <button
-                    className="rounded-full border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] px-4 py-2 text-sm font-semibold text-[var(--color-text-primary)] transition hover:bg-[var(--color-bg-main)]"
+                    className="rounded-full border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-[var(--color-text-primary)] transition hover:bg-[var(--color-bg-main)]"
                   >
                     Message
                   </button>

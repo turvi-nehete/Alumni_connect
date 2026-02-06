@@ -69,7 +69,7 @@ function Jobs() {
     <div className="space-y-8">
 
       {/* STATS ROW */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {[
           { value: "24", label: "Total Open Jobs", color: "text-[var(--color-accent-indigo)]" },
           { value: "8", label: "New This Week", color: "text-[var(--color-accent-purple)]" },
@@ -78,11 +78,11 @@ function Jobs() {
         ].map((stat, index) => (
           <div
             key={index}
-            className="rounded-3xl border border-[var(--color-border-soft)]
-            bg-[var(--color-bg-card)] p-6 shadow-md transition-all duration-300
+            className="rounded-2xl sm:rounded-3xl border border-[var(--color-border-soft)]
+            bg-[var(--color-bg-card)] p-4 sm:p-6 shadow-md transition-all duration-300
             hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(124,58,237,0.15)]"
           >
-            <p className={`text-3xl font-extrabold tracking-tight ${stat.color}`}>
+            <p className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${stat.color}`}>
               {stat.value}
             </p>
             <p className="mt-2 text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide">
@@ -95,7 +95,7 @@ function Jobs() {
       {/* RECOMMENDED FOR YOU SECTION */}
       {recommendedJobs.length > 0 && (
         <section className="space-y-4">
-          <h2 className="text-2xl font-bold tracking-wide text-[var(--color-text-primary)]">
+          <h2 className="text-xl sm:text-2xl font-bold tracking-wide text-[var(--color-text-primary)]">
             Recommended For You
           </h2>
           <div className="space-y-4">
@@ -104,18 +104,18 @@ function Jobs() {
               return (
                 <div
                   key={job.id}
-                  className="group relative rounded-3xl border border-[var(--color-border-soft)]
-                  bg-[var(--color-bg-card)] p-6 shadow-md transition-all duration-300
+                  className="group relative rounded-2xl sm:rounded-3xl border border-[var(--color-border-soft)]
+                  bg-[var(--color-bg-card)] p-4 sm:p-6 shadow-md transition-all duration-300
                   hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(124,58,237,0.2)]"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3">
-                        <h3 className="text-xl font-bold text-[var(--color-text-primary)]">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                        <h3 className="text-lg sm:text-xl font-bold text-[var(--color-text-primary)]">
                           {job.title}
                         </h3>
                         {job.referredBy && (
-                          <span className="rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)]/20 to-[var(--color-accent-purple)]/20 px-3 py-1 text-xs font-semibold text-[var(--color-accent-purple)]">
+                          <span className="rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)]/20 to-[var(--color-accent-purple)]/20 px-2 sm:px-3 py-1 text-xs font-semibold text-[var(--color-accent-purple)] self-start sm:self-auto">
                             Referred by Alumni
                           </span>
                         )}
@@ -123,13 +123,13 @@ function Jobs() {
                       <p className="mt-1 text-sm font-medium text-[var(--color-text-secondary)]">
                         {job.company} • {job.location} {job.isRemote && "• Remote"}
                       </p>
-                      <div className="mt-4 flex items-center gap-4">
+                      <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-semibold text-[var(--color-text-secondary)]">
                             Skill Match:
                           </span>
                           <div className="flex items-center gap-2">
-                            <div className="h-2 w-24 overflow-hidden rounded-full bg-[var(--color-bg-main)]">
+                            <div className="h-2 w-20 sm:w-24 overflow-hidden rounded-full bg-[var(--color-bg-main)]">
                               <div
                                 className={`h-full rounded-full ${
                                   job.skillMatch >= 80
@@ -171,11 +171,11 @@ function Jobs() {
                       {isSaved ? "✓" : "☆"}
                     </button>
                   </div>
-                  <div className="mt-4 flex gap-3">
-                    <button className="rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] px-6 py-2 text-sm font-semibold text-white shadow-[0_0_20px_rgba(99,102,241,0.5)] transition hover:shadow-[0_0_30px_rgba(124,58,237,0.7)]">
+                  <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:gap-3">
+                    <button className="rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] px-5 sm:px-6 py-2 text-sm font-semibold text-white shadow-[0_0_20px_rgba(99,102,241,0.5)] transition hover:shadow-[0_0_30px_rgba(124,58,237,0.7)]">
                       Apply Now
                     </button>
-                    <button className="rounded-full border border-[var(--color-border-soft)] bg-[var(--color-bg-main)] px-6 py-2 text-sm font-semibold text-[var(--color-text-primary)] transition hover:bg-[var(--color-bg-card)]">
+                    <button className="rounded-full border border-[var(--color-border-soft)] bg-[var(--color-bg-main)] px-5 sm:px-6 py-2 text-sm font-semibold text-[var(--color-text-primary)] transition hover:bg-[var(--color-bg-card)]">
                       View Details
                     </button>
                   </div>
@@ -188,7 +188,7 @@ function Jobs() {
 
       {/* ALL JOBS SECTION */}
       <section className="space-y-4">
-        <h2 className="text-2xl font-bold tracking-wide text-[var(--color-text-primary)]">
+        <h2 className="text-xl sm:text-2xl font-bold tracking-wide text-[var(--color-text-primary)]">
           All Open Positions
         </h2>
         <div className="space-y-4">
@@ -197,37 +197,39 @@ function Jobs() {
             return (
               <div
                 key={job.id}
-                className="group relative rounded-3xl border border-[var(--color-border-soft)]
-                bg-[var(--color-bg-card)] p-6 shadow-md transition-all duration-300
+                className="group relative rounded-2xl sm:rounded-3xl border border-[var(--color-border-soft)]
+                bg-[var(--color-bg-card)] p-4 sm:p-6 shadow-md transition-all duration-300
                 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(124,58,237,0.15)]"
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3">
-                      <h3 className="text-xl font-bold text-[var(--color-text-primary)]">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                      <h3 className="text-lg sm:text-xl font-bold text-[var(--color-text-primary)]">
                         {job.title}
                       </h3>
-                      {job.referredBy && (
-                        <span className="rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)]/20 to-[var(--color-accent-purple)]/20 px-3 py-1 text-xs font-semibold text-[var(--color-accent-purple)]">
-                          Referred by Alumni
-                        </span>
-                      )}
-                      {job.postedBy === "alumni" && (
-                        <span className="rounded-full bg-[var(--color-accent-indigo)]/20 px-3 py-1 text-xs font-semibold text-[var(--color-accent-indigo)]">
-                          Alumni Posted
-                        </span>
-                      )}
+                      <div className="flex flex-wrap gap-2">
+                        {job.referredBy && (
+                          <span className="rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)]/20 to-[var(--color-accent-purple)]/20 px-2 sm:px-3 py-1 text-xs font-semibold text-[var(--color-accent-purple)]">
+                            Referred by Alumni
+                          </span>
+                        )}
+                        {job.postedBy === "alumni" && (
+                          <span className="rounded-full bg-[var(--color-accent-indigo)]/20 px-2 sm:px-3 py-1 text-xs font-semibold text-[var(--color-accent-indigo)]">
+                            Alumni Posted
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <p className="mt-1 text-sm font-medium text-[var(--color-text-secondary)]">
                       {job.company} • {job.location} {job.isRemote && "• Remote"}
                     </p>
-                    <div className="mt-4 flex items-center gap-4">
+                    <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-semibold text-[var(--color-text-secondary)]">
                           Skill Match:
                         </span>
                         <div className="flex items-center gap-2">
-                          <div className="h-2 w-24 overflow-hidden rounded-full bg-[var(--color-bg-main)]">
+                          <div className="h-2 w-20 sm:w-24 overflow-hidden rounded-full bg-[var(--color-bg-main)]">
                             <div
                               className={`h-full rounded-full ${
                                 job.skillMatch >= 80
@@ -269,11 +271,11 @@ function Jobs() {
                     {isSaved ? "✓" : "☆"}
                   </button>
                 </div>
-                <div className="mt-4 flex gap-3">
-                  <button className="rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] px-6 py-2 text-sm font-semibold text-white shadow-[0_0_20px_rgba(99,102,241,0.5)] transition hover:shadow-[0_0_30px_rgba(124,58,237,0.7)]">
+                <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:gap-3">
+                  <button className="rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] px-5 sm:px-6 py-2 text-sm font-semibold text-white shadow-[0_0_20px_rgba(99,102,241,0.5)] transition hover:shadow-[0_0_30px_rgba(124,58,237,0.7)]">
                     Apply Now
                   </button>
-                  <button className="rounded-full border border-[var(--color-border-soft)] bg-[var(--color-bg-main)] px-6 py-2 text-sm font-semibold text-[var(--color-text-primary)] transition hover:bg-[var(--color-bg-card)]">
+                  <button className="rounded-full border border-[var(--color-border-soft)] bg-[var(--color-bg-main)] px-5 sm:px-6 py-2 text-sm font-semibold text-[var(--color-text-primary)] transition hover:bg-[var(--color-bg-card)]">
                     View Details
                   </button>
                 </div>
