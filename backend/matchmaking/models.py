@@ -8,12 +8,12 @@ class MatchScore(models.Model):
     student = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="match_scores_student"
+        related_name="match_scores_as_student"
     )
     alumni = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="match_scores_alumni"
+        related_name="match_scores_as_alumni"
     )
     score = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)

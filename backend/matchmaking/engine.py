@@ -1,9 +1,9 @@
-def compute_similarity(student_skills, alumni_skills):
+def compute_similarity(student_skill_ids, alumni_skill_ids):
     """
-    Simple Jaccard similarity.
+    Jaccard similarity between two skill ID sets.
     """
-    student_set = set(student_skills)
-    alumni_set = set(alumni_skills)
+    student_set = set(student_skill_ids)
+    alumni_set = set(alumni_skill_ids)
 
     if not student_set or not alumni_set:
         return 0.0
