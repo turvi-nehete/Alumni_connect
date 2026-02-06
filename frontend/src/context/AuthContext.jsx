@@ -1,39 +1,83 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import authService from '../services/authService'
 
 const AuthContext = createContext(null)
 
-const AUTH_STORAGE_KEY = 'alumni_connect_is_authenticated'
-
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [user, setUser] = useState(null)
+
+  const fetchUser = async () => {
+    try {
+      const response = await authService.getCurrentUser() // Need to add this to authService
+      setUser(response)
+    } catch (error) {
+      console.error("Failed to fetch user", error)
+    }
+  }
+
+  // Check token immediately
+  const [loading, setLoading] = useState(true)
+  const [token, setToken] = useState(localStorage.getItem('access_token'))
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    const stored = window.localStorage.getItem(AUTH_STORAGE_KEY)
-    setIsAuthenticated(stored === 'true')
+    const initAuth = async () => {
+      const storedToken = localStorage.getItem('access_token')
+      if (storedToken) {
+        setToken(storedToken)
+        setIsAuthenticated(true)
+        await fetchUser()
+      }
+      setLoading(false)
+    }
+    initAuth()
   }, [])
 
-  const login = () => {
-    setIsAuthenticated(true)
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(AUTH_STORAGE_KEY, 'true')
+  const login = async (email, password) => {
+    try {
+      const response = await authService.login(email, password)
+      // authService.login usually sets localStorage, but we need to update state too
+      // Assuming authService.login returns the token or we get it from storage
+      const newToken = localStorage.getItem('access_token')
+      setToken(newToken)
+      setIsAuthenticated(true)
+      await fetchUser()
+    } catch (error) {
+      console.error('Login failed:', error)
+      throw error
+    }
+  }
+
+  const register = async (userData) => {
+    try {
+      await authService.register(userData)
+      // Note: We don't auto-login here as the backend might require email verification 
+      // or the user might want to login manually.
+      // If auto-login is desired, we can call login() here using the credentials from userData.
+    } catch (error) {
+      console.error('Registration failed:', error)
+      throw error
     }
   }
 
   const logout = () => {
+    authService.logout()
+    setToken(null)
     setIsAuthenticated(false)
-    if (typeof window !== 'undefined') {
-      window.localStorage.removeItem(AUTH_STORAGE_KEY)
-    }
+    setUser(null)
   }
 
   const value = useMemo(
     () => ({
       isAuthenticated,
+      user,
+      token,
+      loading,
       login,
+      register,
       logout,
     }),
-    [isAuthenticated],
+    [isAuthenticated, user, token],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

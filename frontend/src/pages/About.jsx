@@ -1,10 +1,10 @@
 function About() {
   return (
     <div className="relative min-h-screen w-full px-[6vh] py-[6vh]">
-      
+
       {/* Page heading */}
       <div className="mb-[6vh]">
-        <h1 className="text-4xl font-semibold tracking-wide text-white">
+        <h1 className="text-4xl font-semibold tracking-wide text-[var(--color-text-primary)]">
           About UniCircle
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-[var(--color-text-secondary)]">
@@ -18,7 +18,7 @@ function About() {
 
         {/* Big statement tile */}
         <div className="col-span-2 row-span-1 rounded-2xl border border-white/10 bg-purple-500/10 p-[4vh]">
-          <h2 className="text-2xl font-semibold text-white">
+          <h2 className="text-2xl font-semibold text-[var(--color-text-primary)]">
             One Network. One Identity.
           </h2>
           <p className="mt-4 text-sm text-[var(--color-text-secondary)]">
@@ -33,7 +33,7 @@ function About() {
           <p className="text-sm text-[var(--color-text-secondary)]">
             Total Members
           </p>
-          <h3 className="mt-4 text-4xl font-semibold text-white">
+          <h3 className="mt-4 text-4xl font-semibold text-[var(--color-text-primary)]">
             12,480+
           </h3>
           <p className="mt-2 text-xs text-purple-400">
@@ -46,7 +46,7 @@ function About() {
           <p className="text-sm text-[var(--color-text-secondary)]">
             Institutions
           </p>
-          <h3 className="mt-4 text-4xl font-semibold text-white">
+          <h3 className="mt-4 text-4xl font-semibold text-[var(--color-text-primary)]">
             35+
           </h3>
           <p className="mt-2 text-xs text-purple-400">
@@ -56,7 +56,7 @@ function About() {
 
         {/* Features tile */}
         <div className="col-span-1 row-span-1 rounded-2xl border border-white/10 bg-purple-500/5 p-[4vh]">
-          <h3 className="text-lg font-semibold text-white">
+          <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">
             Core Features
           </h3>
           <ul className="mt-4 space-y-2 text-sm text-[var(--color-text-secondary)]">
@@ -69,7 +69,7 @@ function About() {
 
         {/* Admin control tile */}
         <div className="col-span-1 row-span-1 rounded-2xl border border-white/10 bg-black/40 p-[4vh]">
-          <h3 className="text-lg font-semibold text-white">
+          <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">
             Admin Control
           </h3>
           <p className="mt-4 text-sm text-[var(--color-text-secondary)]">
@@ -80,7 +80,7 @@ function About() {
 
         {/* Vision tile */}
         <div className="col-span-2 row-span-1 rounded-2xl border border-white/10 bg-purple-500/10 p-[4vh]">
-          <h3 className="text-xl font-semibold text-white">
+          <h3 className="text-xl font-semibold text-[var(--color-text-primary)]">
             Built for the long term
           </h3>
           <p className="mt-4 text-sm text-[var(--color-text-secondary)]">

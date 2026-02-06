@@ -6,22 +6,31 @@
   /* Midnight Legacy Network theme (light fallback) */
   --color-bg-main: #f3f4f6;
   --color-bg-card: #ffffff;
+  --color-bg-hover: #f9fafb;
   --color-border-soft: #e5e7eb;
+  
   --color-accent-indigo: #6366f1;
   --color-accent-purple: #7c3aed;
+  
   --color-text-primary: #111827;
   --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
 }
 
 .dark {
   /* Midnight Legacy Network dark theme */
   --color-bg-main: #0b0f1a;
-  --color-bg-card: #111827;
-  --color-border-soft: #1f2937;
-  --color-accent-indigo: #6366f1;
-  --color-accent-purple: #7c3aed;
+  --color-bg-card: #1f2937; /* Lighter than background for visibility */
+  --color-bg-hover: #374151;
+
+  --color-border-soft: #374151; /* More visible border */
+  
+  --color-accent-indigo: #818cf8; /* Lighter indigo for better contrast in dark mode */
+  --color-accent-purple: #a78bfa; /* Lighter purple */
+  
   --color-text-primary: #f9fafb;
-  --color-text-secondary: #9ca3af;
+  --color-text-secondary: #d1d5db; /* Lighter gray */
+  --color-text-muted: #6b7280;
 }
 
 html {

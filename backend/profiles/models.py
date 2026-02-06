@@ -120,6 +120,10 @@ class Profile(models.Model):
     company = models.CharField(max_length=255, blank=True)
     location = models.CharField(max_length=255, blank=True)
     linkedin = models.URLField(blank=True)
+    
+    # New fields for autofill/manual entry
+    graduation_year = models.CharField(max_length=10, blank=True) 
+    department = models.CharField(max_length=100, blank=True)
 
     skills = models.ManyToManyField(
         Skill,

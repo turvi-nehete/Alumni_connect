@@ -14,13 +14,26 @@ class ProfileSerializer(serializers.ModelSerializer):
     # Return readable skills
     skill_names = serializers.SerializerMethodField(read_only=True)
 
+    first_name = serializers.CharField(source='user.first_name', read_only=True)
+    last_name = serializers.CharField(source='user.last_name', read_only=True)
+    email = serializers.CharField(source='user.email', read_only=True)
+    role = serializers.CharField(source='user.role', read_only=True)
+    user_id = serializers.IntegerField(source='user.id', read_only=True)
+
     class Meta:
         model = Profile
         fields = [
+            "user_id",
+            "first_name",
+            "last_name",
+            "email",
+            "role",
             "bio",
             "company",
             "location",
             "linkedin",
+            "graduation_year",
+            "department",
             "skills",
             "skill_names",
         ]

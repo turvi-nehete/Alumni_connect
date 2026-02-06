@@ -9,9 +9,23 @@ class Chat(models.Model):
         User,
         related_name="chats"
     )
+    chat_type = models.CharField(
+        max_length=20, 
+        choices=[("dm", "Direct Message"), ("group", "Group")], 
+        default="dm"
+    )
+    group_context = models.CharField(
+        max_length=50, 
+        blank=True, 
+        null=True,
+        help_text="Unique key for auto-groups (e.g., 'batch_2024')"
+    )
+    name = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
+        if self.name:
+            return f"{self.name} ({self.chat_type})"
         return f"Chat {self.id}"
 
 

@@ -1,89 +1,75 @@
+import { Card, CardContent } from "../components/ui/Card.jsx"
+
+const GALLERY_ITEMS = [
+  {
+    category: "Alumni Meet",
+    title: "Annual Alumni Connect",
+    description: "Graduates from across batches reconnect, share stories, and build new professional links.",
+    colorClass: "bg-[var(--color-accent-purple)]/10"
+  },
+  {
+    category: "Mentorship",
+    title: "1:1 Alumni Guidance",
+    description: "Students connect directly with alumni for career advice, internships, and long-term mentorship.",
+    colorClass: "bg-[var(--color-accent-indigo)]/10"
+  },
+  {
+    category: "Events",
+    title: "Talks & Workshops",
+    description: "Industry experts and alumni leaders share insights through curated talks and hands-on sessions.",
+    colorClass: "bg-[var(--color-accent-purple)]/10"
+  },
+  {
+    category: "Community",
+    title: "Beyond Graduation",
+    description: "UniCircle keeps the community alive long after college — through shared milestones, opportunities, and support.",
+    colorClass: "bg-[var(--color-accent-indigo)]/10"
+  }
+]
+
 function Gallery() {
   return (
-    <div className="relative w-full px-[6vh] py-[8vh]">
+    <div className="space-y-12 animate-in fade-in duration-500">
 
       {/* Header */}
-      <div className="mb-[10vh] max-w-2xl">
-        <h1 className="text-4xl font-semibold tracking-wide text-white">
+      <div className="max-w-2xl">
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--color-text-primary)]">
           Gallery
         </h1>
-        <p className="mt-3 text-sm text-[var(--color-text-secondary)]">
+        <p className="mt-4 text-base sm:text-lg text-[var(--color-text-secondary)]">
           Moments from across the UniCircle community — events, conversations,
           mentorship, and shared experiences.
         </p>
       </div>
 
       {/* GALLERY STRIPS */}
-      <div className="space-y-[12vh]">
+      <div className="space-y-12 sm:space-y-20">
+        {GALLERY_ITEMS.map((item, index) => (
+          <div
+            key={index}
+            className={`flex flex-col gap-6 sm:gap-12 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'
+              }`}
+          >
+            {/* Image Placeholder */}
+            <div
+              className={`w-full lg:w-3/5 h-64 sm:h-80 lg:h-96 rounded-3xl ${item.colorClass} 
+              transition-transform duration-500 hover:scale-[1.02] shadow-lg`}
+            />
 
-        {/* Strip 1 */}
-        <div className="flex items-center gap-[8vh]">
-          <div className="h-[38vh] w-[55%] rounded-2xl bg-purple-500/15 transition-transform duration-500 hover:scale-[1.03]" />
-          <div className="max-w-sm">
-            <p className="text-xs uppercase tracking-widest text-purple-400">
-              Alumni Meet
-            </p>
-            <h2 className="mt-4 text-2xl font-semibold text-white">
-              Annual Alumni Connect
-            </h2>
-            <p className="mt-4 text-sm text-[var(--color-text-secondary)]">
-              Graduates from across batches reconnect, share stories, and build
-              new professional links.
-            </p>
+            {/* Content */}
+            <div className="w-full lg:w-2/5 flex flex-col items-start text-left">
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent-purple)]">
+                {item.category}
+              </span>
+              <h2 className="mt-3 text-2xl sm:text-3xl font-bold text-[var(--color-text-primary)]">
+                {item.title}
+              </h2>
+              <p className="mt-4 text-sm sm:text-base leading-relaxed text-[var(--color-text-secondary)]">
+                {item.description}
+              </p>
+            </div>
           </div>
-        </div>
-
-        {/* Strip 2 (reversed) */}
-        <div className="flex items-center gap-[8vh] flex-row-reverse">
-          <div className="h-[38vh] w-[55%] rounded-2xl bg-black/40 transition-transform duration-500 hover:scale-[1.03]" />
-          <div className="max-w-sm">
-            <p className="text-xs uppercase tracking-widest text-purple-400">
-              Mentorship
-            </p>
-            <h2 className="mt-4 text-2xl font-semibold text-white">
-              1:1 Alumni Guidance
-            </h2>
-            <p className="mt-4 text-sm text-[var(--color-text-secondary)]">
-              Students connect directly with alumni for career advice,
-              internships, and long-term mentorship.
-            </p>
-          </div>
-        </div>
-
-        {/* Strip 3 */}
-        <div className="flex items-center gap-[8vh]">
-          <div className="h-[38vh] w-[55%] rounded-2xl bg-purple-500/10 transition-transform duration-500 hover:scale-[1.03]" />
-          <div className="max-w-sm">
-            <p className="text-xs uppercase tracking-widest text-purple-400">
-              Events
-            </p>
-            <h2 className="mt-4 text-2xl font-semibold text-white">
-              Talks & Workshops
-            </h2>
-            <p className="mt-4 text-sm text-[var(--color-text-secondary)]">
-              Industry experts and alumni leaders share insights through curated
-              talks and hands-on sessions.
-            </p>
-          </div>
-        </div>
-
-        {/* Strip 4 (reversed) */}
-        <div className="flex items-center gap-[8vh] flex-row-reverse">
-          <div className="h-[38vh] w-[55%] rounded-2xl bg-black/30 transition-transform duration-500 hover:scale-[1.03]" />
-          <div className="max-w-sm">
-            <p className="text-xs uppercase tracking-widest text-purple-400">
-              Community
-            </p>
-            <h2 className="mt-4 text-2xl font-semibold text-white">
-              Beyond Graduation
-            </h2>
-            <p className="mt-4 text-sm text-[var(--color-text-secondary)]">
-              UniCircle keeps the community alive long after college — through
-              shared milestones, opportunities, and support.
-            </p>
-          </div>
-        </div>
-
+        ))}
       </div>
     </div>
   )

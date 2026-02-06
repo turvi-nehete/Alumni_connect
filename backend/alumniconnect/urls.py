@@ -23,7 +23,7 @@ urlpatterns = [
     path("api/mentorship/", include("mentorship.urls")),
     path("api/accounts/",include('accounts.urls')),
     path("api/matchmaking/", include("matchmaking.urls")),
-    path("api/messages/", include("messaging.urls")),
+    path("api/messaging/", include("messaging.urls")),
     path("api/donations/", include("donations.urls")),
     path('api/profiles/',include('profiles.urls')),
     path('api/events/',include('events.urls')),

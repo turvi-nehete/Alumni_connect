@@ -8,10 +8,17 @@ User = settings.AUTH_USER_MODEL
 
 
 class Event(models.Model):
+    AUDIENCE_CHOICES = (
+        ('student', 'Student'),
+        ('alumni', 'Alumni'),
+        ('all', 'All'),
+    )
+
     title = models.CharField(max_length=255)
     description = models.TextField()
     date = models.DateTimeField()
     location = models.CharField(max_length=255)
+    audience = models.CharField(max_length=10, choices=AUDIENCE_CHOICES, default='all')
 
     created_by = models.ForeignKey(
         User,

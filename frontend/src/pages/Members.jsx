@@ -1,121 +1,141 @@
+import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import { useAuth } from '../context/AuthContext.jsx'
-
-const MOCK_MEMBERS = [
-  { id: 1, name: 'Darsh Doshi', role: 'Alumni', batch: 'Batch of 2018' },
-  { id: 2, name: 'Aarav Mehta', role: 'Student', batch: 'Batch of 2026' },
-  { id: 3, name: 'Riya Shah', role: 'Alumni', batch: 'Batch of 2015' },
-  { id: 4, name: 'Kabir Patel', role: 'Student', batch: 'Batch of 2025' },
-  { id: 5, name: 'Neha Jain', role: 'Alumni', batch: 'Batch of 2012' },
-  { id: 6, name: 'Dev Malhotra', role: 'Student', batch: 'Batch of 2027' },
-  { id: 7, name: 'Ishaan Rao', role: 'Alumni', batch: 'Batch of 2010' },
-  { id: 8, name: 'Meera Kapoor', role: 'Student', batch: 'Batch of 2024' },
-]
+import api from '../services/api'
+import { useNotification } from "../context/NotificationContext.jsx"
 
 function Members() {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, user } = useAuth()
+  const navigate = useNavigate()
+  const { addNotification } = useNotification()
+  const [members, setMembers] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState("alumni")
+
+  useEffect(() => {
+    fetchMembers()
+  }, [])
+
+  const fetchMembers = async () => {
+    try {
+      const response = await api.get('/profiles/all/')
+      const filtered = isAuthenticated && user
+        ? response.data.filter(p => p.email !== user.email)
+        : response.data
+      setMembers(filtered)
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleConnect = async (userId) => {
+    try {
+      const response = await api.post('/messaging/create-chat/', { user_id: userId })
+      const chatId = response.data.chat_id
+      navigate(`/messaging?chatId=${chatId}`)
+    } catch (err) {
+      console.error(err)
+      addNotification("error", "Failed to connect.")
+    }
+  }
+
+  const filteredMembers = members.filter(member => member.role?.toLowerCase() === activeTab)
+
+  if (loading) return <div className="text-center py-20 text-[var(--color-text-secondary)]">Loading members...</div>
 
   return (
-    <div className="grid grid-cols-1 gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-4">
-      {MOCK_MEMBERS.map((member) => (
-        <div key={member.id} className="perspective h-[320px] sm:h-[340px]">
+    <div className="space-y-6 animate-in fade-in duration-500">
 
-          <div className="flip-card glow-card relative h-full w-full rounded-2xl border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] shadow-md">
+      {/* TABS */}
+      <div className="flex justify-center">
+        <div className="inline-flex rounded-full bg-[var(--color-bg-card)] p-1 border border-[var(--color-border-soft)]">
+          <button
+            onClick={() => setActiveTab("alumni")}
+            className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${activeTab === "alumni"
+              ? "bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] text-white shadow-md"
+              : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+              }`}
+          >
+            Alumni
+          </button>
+          <button
+            onClick={() => setActiveTab("student")}
+            className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${activeTab === "student"
+              ? "bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] text-white shadow-md"
+              : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+              }`}
+          >
+            Students
+          </button>
+        </div>
+      </div>
 
-            {/* FRONT SIDE */}
-            <div className="flip-front absolute inset-0 flex flex-col items-center justify-between rounded-2xl p-8">
+      <div className="grid grid-cols-1 gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {filteredMembers.map((member) => (
+          <div key={member.user_id || member.email} className="perspective h-[320px] sm:h-[340px]">
 
-              {/* Big Avatar */}
-              <div className="mt-4 sm:mt-6 h-28 w-28 sm:h-36 sm:w-36 rounded-full bg-gradient-to-tr from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] p-1">
-                <div className="flex h-full w-full items-center justify-center rounded-full bg-[var(--color-bg-main)] text-3xl sm:text-4xl font-bold text-[var(--color-accent-indigo)]">
-                  {member.name?.charAt(0)}
-                </div>
-              </div>
+            <div className="flip-card glow-card relative h-full w-full rounded-2xl border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] shadow-md">
 
-              {/* Name Bottom with Subtle Glow */}
-              <p className="text-base sm:text-lg font-semibold tracking-wide text-white 
-                [text-shadow:0_0_8px_rgba(255,255,255,0.8),0_2px_12px_rgba(0,0,0,0.8)]">
-                {member.name}
-              </p>
+              {/* FRONT SIDE */}
+              <div className="flip-front absolute inset-0 flex flex-col items-center justify-between rounded-2xl p-8">
 
-
-
-
-            </div>
-
-            {/* BACK SIDE */}
-            <div className="flip-back absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-[var(--color-bg-main)] p-4 sm:p-8 text-center">
-
-              <h2 className="text-xl font-semibold text-[var(--color-text-primary)]">
-                {member.name}
-              </h2>
-
-              <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-                {member.batch}
-              </p>
-
-              {/* SOCIAL LAYER */}
-              <div className="mt-6 w-full space-y-4">
-                
-                {/* Mutual Connections */}
-                <div className="rounded-xl border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-[var(--color-text-secondary)]">
-                    Mutual Connections
-                  </p>
-                  <p className="mt-1 text-lg font-bold text-[var(--color-accent-indigo)]">
-                    {member.id % 3 === 0 ? "8" : member.id % 2 === 0 ? "5" : "3"}
-                  </p>
-                </div>
-
-                {/* Shared Skills */}
-                <div className="rounded-xl border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-[var(--color-text-secondary)]">
-                    Shared Skills
-                  </p>
-                  <div className="mt-2 flex flex-wrap justify-center gap-2">
-                    {[
-                      ["React", "AI"],
-                      ["JavaScript", "Python"],
-                      ["React", "Node.js"],
-                      ["AI", "ML"],
-                      ["React", "TypeScript"],
-                      ["Python", "Data Science"],
-                      ["React", "Vue"],
-                      ["JavaScript", "React"],
-                    ][member.id - 1].map((skill, idx) => (
-                      <span
-                        key={idx}
-                        className="rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)]/20 to-[var(--color-accent-purple)]/20 px-3 py-1 text-xs font-semibold text-[var(--color-accent-purple)]"
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                {/* Big Avatar */}
+                <div className="mt-4 sm:mt-6 h-28 w-28 sm:h-36 sm:w-36 rounded-full bg-gradient-to-tr from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] p-1">
+                  <div className="flex h-full w-full items-center justify-center rounded-full bg-[var(--color-bg-main)] text-3xl sm:text-4xl font-bold text-[var(--color-accent-indigo)]">
+                    {(member.first_name || member.email || "?").charAt(0).toUpperCase()}
                   </div>
                 </div>
 
+                {/* Name Bottom with Subtle Glow */}
+                <p className="text-base sm:text-lg font-semibold tracking-wide text-[var(--color-text-primary)]">
+                  {member.first_name} {member.last_name}
+                </p>
+                <p className="text-sm text-[var(--color-text-secondary)]">{member.role}</p>
+
               </div>
 
-              {/* ACTION BUTTONS */}
-              {isAuthenticated && (
-                <div className="mt-4 sm:mt-6 flex w-full gap-2 sm:gap-3">
-                  <button
-                    className="flex-1 rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-[0_0_18px_rgba(99,102,241,0.6)] transition hover:shadow-[0_0_24px_rgba(124,58,237,0.8)]"
-                  >
-                    Connect
-                  </button>
-                  <button
-                    className="rounded-full border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-[var(--color-text-primary)] transition hover:bg-[var(--color-bg-main)]"
-                  >
-                    Message
-                  </button>
+              {/* BACK SIDE */}
+              <div className="flip-back absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-[var(--color-bg-main)] p-4 sm:p-8 text-center">
+
+                <h2 className="text-xl font-semibold text-[var(--color-text-primary)]">
+                  {member.first_name} {member.last_name}
+                </h2>
+
+                <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
+                  {member.company || "No Company"}
+                </p>
+
+                {/* Skills */}
+                <div className="mt-4 flex flex-wrap justify-center gap-2">
+                  {member.skill_names && member.skill_names.slice(0, 5).map((skill, idx) => (
+                    <span key={idx} className="rounded-full bg-[var(--color-accent-indigo)]/10 px-2 py-1 text-xs text-[var(--color-accent-indigo)]">
+                      {skill}
+                    </span>
+                  ))}
                 </div>
-              )}
+
+
+                {/* ACTION BUTTONS */}
+                {isAuthenticated && (
+                  <div className="mt-auto mb-4 w-full">
+                    <button
+                      onClick={() => handleConnect(member.user_id)}
+                      className="w-full rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-md transition hover:scale-105"
+                    >
+                      Connect
+                    </button>
+                  </div>
+                )}
+
+              </div>
 
             </div>
 
           </div>
-
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }

@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
+import { Button } from '../components/ui/Button.jsx'
+import { Input } from '../components/ui/Input.jsx'
 
 function LoginPage() {
   const [email, setEmail] = useState('')
@@ -8,15 +10,37 @@ function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false)
   const [role, setRole] = useState('student')
   const [isOpen, setIsOpen] = useState(false)
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('')
 
   const dropdownRef = useRef(null)
   const navigate = useNavigate()
+  const location = useLocation()
   const { login } = useAuth()
 
-  const handleSubmit = (event) => {
+  // Check for success message from registration
+  useEffect(() => {
+    if (location.state?.message) {
+      setSuccessMessage(location.state.message)
+      // Clear the message from location state
+      navigate(location.pathname, { replace: true, state: {} })
+    }
+  }, [location, navigate])
+
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    login()
-    navigate('/dashboard', { replace: true })
+    setError('')
+    setIsLoading(true)
+    try {
+      await login(email, password)
+      navigate('/dashboard', { replace: true })
+    } catch (err) {
+      console.error('Login failed:', err)
+      setError('Invalid email or password')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   // Close dropdown on outside click
@@ -33,23 +57,18 @@ function LoginPage() {
 
   // Role styling
   const roleBgMap = {
-    student:
-      'bg-indigo-500/20 border-indigo-500/50 shadow-[0_0_15px_rgba(99,102,241,0.3)]',
-    alumni:
-      'bg-emerald-500/20 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.3)]',
-    admin:
-      'bg-rose-500/20 border-rose-500/50 shadow-[0_0_15px_rgba(244,63,94,0.3)]',
+    student: 'bg-indigo-500/10 border-indigo-500/30 text-indigo-500',
+    alumni: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500',
+    admin: 'bg-rose-500/10 border-rose-500/30 text-rose-500',
   }
 
-  const roleClasses = roleBgMap[role]
-
   return (
-    <div className="flex min-h-[70vh] items-center justify-center">
-      <div className="w-full max-w-md rounded-xl border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] px-8 py-8 shadow-xl shadow-[rgba(15,23,42,0.75)]">
+    <div className="flex min-h-[80vh] items-center justify-center px-4 animate-in fade-in duration-500">
+      <div className="w-full max-w-md rounded-2xl border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] px-8 py-10 shadow-xl shadow-black/5">
 
         {/* Header */}
-        <div className="mb-6 text-center">
-          <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl font-bold tracking-tight text-[var(--color-text-primary)]">
             Welcome Back
           </h1>
           <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
@@ -57,61 +76,69 @@ function LoginPage() {
           </p>
         </div>
 
-        <form className="space-y-5" onSubmit={handleSubmit}>
+        {error && (
+          <div className="mb-6 rounded-lg bg-red-500/10 px-4 py-3 text-center text-sm font-medium text-red-500 border border-red-500/20">
+            {error}
+          </div>
+        )}
+
+        {successMessage && (
+          <div className="mb-6 rounded-lg bg-green-500/10 px-4 py-3 text-center text-sm font-medium text-green-500 border border-green-500/20">
+            {successMessage}
+          </div>
+        )}
+
+        <form className="space-y-6" onSubmit={handleSubmit}>
 
           {/* Email */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]">
               Email
             </label>
-            <input
+            <Input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-[var(--color-border-soft)] bg-[#020617]/40 px-3 py-2 text-sm text-[var(--color-text-primary)] outline-none transition focus:border-[var(--color-accent-indigo)] focus:ring-2 focus:ring-[var(--color-accent-indigo)]/60"
               placeholder="you@example.edu"
             />
           </div>
 
           {/* Password */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]">
               Password
             </label>
-            <input
+            <Input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-[var(--color-border-soft)] bg-[#020617]/40 px-3 py-2 text-sm text-[var(--color-text-primary)] outline-none transition focus:border-[var(--color-accent-indigo)] focus:ring-2 focus:ring-[var(--color-accent-indigo)]/60"
               placeholder="••••••••"
             />
           </div>
 
           {/* Custom Role Dropdown */}
           <div className="space-y-1.5 relative" ref={dropdownRef}>
-            <label className="block text-xs font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]">
               Role
             </label>
 
             <button
               type="button"
               onClick={() => setIsOpen(!isOpen)}
-              className={`relative w-full rounded-lg border px-3 py-2 text-sm text-left text-[var(--color-text-primary)] transition duration-300 ${roleClasses}`}
+              className={`relative w-full rounded-md border border-[var(--color-border-soft)] px-3 py-2 text-sm font-medium text-left transition-all duration-200 outline-none focus:ring-2 focus:ring-[var(--color-accent-indigo)]/50 ${roleBgMap[role]} capitalize`}
             >
-              {role.charAt(0).toUpperCase() + role.slice(1)}
+              {role}
               <span
-                className={`absolute right-3 transition-transform duration-300 ${
-                  isOpen ? 'rotate-180' : ''
-                }`}
+                className={`absolute right-3 top-1/2 -translate-y-1/2 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
               >
                 ▼
               </span>
             </button>
 
             {isOpen && (
-              <div className="absolute z-20 mt-2 w-full rounded-lg border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] shadow-xl">
+              <div className="absolute z-20 mt-2 w-full overflow-hidden rounded-lg border border-[var(--color-border-soft)] bg-[var(--color-bg-card)] shadow-lg ring-1 ring-black ring-opacity-5">
                 {['student', 'alumni', 'admin'].map((item) => (
                   <div
                     key={item}
@@ -119,9 +146,7 @@ function LoginPage() {
                       setRole(item)
                       setIsOpen(false)
                     }}
-                    className={`cursor-pointer px-3 py-2 text-sm capitalize transition hover:bg-white/10 ${
-                      role === item ? 'bg-white/10' : ''
-                    }`}
+                    className={`cursor-pointer px-4 py-2.5 text-sm capitalize transition hover:bg-[var(--color-bg-hover)] ${role === item ? 'bg-[var(--color-accent-indigo)]/5 font-medium text-[var(--color-accent-indigo)]' : 'text-[var(--color-text-primary)]'}`}
                   >
                     {item}
                   </div>
@@ -131,63 +156,78 @@ function LoginPage() {
           </div>
 
           {/* Remember + Forgot */}
-          <div className="flex items-center justify-between text-xs text-[var(--color-text-secondary)]">
-            <label className="inline-flex items-center gap-2">
+          <div className="flex items-center justify-between text-sm">
+            <label className="inline-flex items-center gap-2 cursor-pointer group">
               <input
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-4 w-4 rounded border-[var(--color-border-soft)] bg-transparent text-[var(--color-accent-indigo)] focus:ring-[var(--color-accent-indigo)]"
+                className="h-4 w-4 rounded border-[var(--color-border-soft)] bg-[var(--color-bg-main)] text-[var(--color-accent-indigo)] focus:ring-[var(--color-accent-indigo)] transition-all cursor-pointer"
               />
-              <span>Remember me</span>
+              <span className="text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors">Remember me</span>
             </label>
 
             <button
               type="button"
-              className="text-xs font-medium text-[var(--color-accent-indigo)] hover:text-[var(--color-accent-purple)]"
+              className="font-medium text-[var(--color-accent-indigo)] hover:text-[var(--color-accent-purple)] transition-colors"
             >
               Forgot password?
             </button>
           </div>
 
           {/* Login Button */}
-          <button
+          <Button
             type="submit"
-            className="mt-2 w-full rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] px-4 py-2 text-sm font-semibold text-white shadow-[0_0_28px_rgba(99,102,241,0.75)] transition hover:shadow-[0_0_36px_rgba(124,58,237,0.9)]"
+            className="w-full text-base shadow-lg shadow-indigo-500/20"
+            size="lg"
+            disabled={isLoading}
           >
-            Login
-          </button>
+            {isLoading ? 'Signing in...' : 'Sign In'}
+          </Button>
+
+          {/* Register Link */}
+          <div className="text-center">
+            <p className="text-sm text-[var(--color-text-secondary)]">
+              Don't have an account?{' '}
+              <Link
+                to="/register"
+                className="font-semibold text-[var(--color-accent-indigo)] hover:text-[var(--color-accent-purple)] transition-colors hover:underline"
+              >
+                Register now
+              </Link>
+            </p>
+          </div>
         </form>
 
-        {/* LinkedIn Button */}
-        <div className="mt-4">
-          <button
-            type="button"
-            className="relative flex w-full items-center justify-center rounded-full bg-[#0a66c2] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#004182]"
-          >
-            <span className="absolute left-4 flex items-center">
-              <svg
-                className="h-4 w-4"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.22 8.25h4.56V24H.22zM8.56 8.25h4.37v2.13h.06c.61-1.16 2.1-2.38 4.33-2.38 4.63 0 5.48 3.05 5.48 7.02V24h-4.56v-7.39c0-1.76-.03-4.02-2.45-4.02-2.45 0-2.83 1.91-2.83 3.89V24H8.56z"
-                />
-              </svg>
-            </span>
-            <span>Connect With LinkedIn</span>
-          </button>
+        <div className="relative my-8">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-[var(--color-border-soft)]"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="bg-[var(--color-bg-card)] px-2 text-[var(--color-text-muted)]">Or continue with</span>
+          </div>
         </div>
 
+        {/* LinkedIn Button */}
+        <button
+          type="button"
+          className="relative flex w-full items-center justify-center rounded-full bg-[#0a66c2] hover:bg-[#004182] px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-200"
+        >
+          <span className="absolute left-4 flex items-center">
+            <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg>
+          </span>
+          LinkedIn
+        </button>
+
         {/* Back to Home */}
-        <div className="mt-6 text-center text-xs text-[var(--color-text-secondary)]">
-          <span>Not ready to sign in? </span>
+        <div className="mt-8 text-center">
           <Link
             to="/public/home"
-            className="font-medium text-[var(--color-accent-indigo)] hover:text-[var(--color-accent-purple)]"
+            className="text-xs font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
           >
-            Back to Home
+            ← Back to Home
           </Link>
         </div>
       </div>

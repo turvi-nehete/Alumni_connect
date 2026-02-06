@@ -11,7 +11,7 @@ from accounts.permissions import IsAdmin, IsAlumni
 
 class CreateEventView(generics.CreateAPIView):
     serializer_class = EventSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin | IsAlumni]
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
 
     def perform_create(self, serializer):
         event = serializer.save(created_by=self.request.user)
@@ -24,6 +24,12 @@ class CreateEventView(generics.CreateAPIView):
 
 class EventListView(generics.ListAPIView):
     queryset = Event.objects.all().order_by('date')
+    serializer_class = EventSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class EventDetailView(generics.RetrieveAPIView):
+    queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = [permissions.IsAuthenticated]
 

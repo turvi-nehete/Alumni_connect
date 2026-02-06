@@ -3,7 +3,8 @@ from .models import Chat
 
 def get_or_create_chat(user1, user2):
     chat = Chat.objects.filter(
-        participants=user1
+        participants=user1,
+        chat_type='dm'
     ).filter(
         participants=user2
     ).first()
