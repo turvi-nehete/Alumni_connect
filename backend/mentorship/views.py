@@ -1,11 +1,12 @@
 import uuid
+from django.db import models
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from django.db import models
 
-
+from notifications.models import Notification
 from .models import MentorshipSlot, MentorshipSession
 from .serializers import (
     MentorshipSlotSerializer,
@@ -20,7 +21,7 @@ class CreateSlotView(APIView):
     def post(self, request):
         if request.user.role != "alumni":
             return Response(
-                {"error": "Only alumni can create slots"},
+                {"error": "Only alumni can create mentorship slots"},
                 status=status.HTTP_403_FORBIDDEN
             )
 
@@ -65,6 +66,11 @@ class BookSlotView(APIView):
         slot.is_booked = True
         slot.save()
 
+        Notification.objects.create(
+            user=slot.alumni,
+            message=f"{request.user.email} booked a mentorship session with you."
+        )
+
         meet_link = f"https://meet.fake/{uuid.uuid4().hex[:8]}"
 
         session = MentorshipSession.objects.create(
@@ -89,4 +95,3 @@ class MyMentorshipSessionsView(APIView):
         )
         serializer = MentorshipSessionSerializer(sessions, many=True)
         return Response(serializer.data)
-

@@ -10,6 +10,8 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class RSVPSerializer(serializers.ModelSerializer):
+    user_email = serializers.CharField(source="user.email", read_only=True)
+
     class Meta:
         model = RSVP
-        fields = '__all__'
+        fields = ['id', 'event', 'status', 'user_email']

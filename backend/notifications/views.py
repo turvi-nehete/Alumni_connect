@@ -1,15 +1,16 @@
 from django.shortcuts import render
 
-# Create your views here.
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from rest_framework import generics, permissions
 from .models import Notification
 from .serializers import NotificationSerializer
 
 
 class NotificationListView(generics.ListAPIView):
-
     serializer_class = NotificationSerializer
     permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
     def get_queryset(self):
         return Notification.objects.filter(
@@ -21,9 +22,9 @@ from rest_framework.response import Response
 
 
 class MarkAsReadView(APIView):
-
     permission_classes = [permissions.IsAuthenticated]
-
+    authentication_classes = [JWTAuthentication]
+    
     def post(self, request, pk):
         notification = Notification.objects.get(
             id=pk,
