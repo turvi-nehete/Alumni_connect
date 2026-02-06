@@ -2,6 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from notifications.models import Notification
+
 
 from .models import Job, JobApplication
 from .serializers import (
@@ -33,13 +35,26 @@ class PostJobView(APIView):
             )
 
         serializer = JobCreateSerializer(data=request.data)
+
         if serializer.is_valid():
             job = serializer.save(posted_by=request.user)
+
+            Notification.objects.create(
+                user=request.user,
+                message=f"Job '{job.title}' posted successfully."
+            )
+
             return Response(
                 JobSerializer(job).data,
                 status=status.HTTP_201_CREATED
             )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # 🔴 THIS WAS MISSING
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
 
 
 class ApplyJobView(APIView):
@@ -81,9 +96,11 @@ class RecommendedJobsView(APIView):
                 status=status.HTTP_403_FORBIDDEN
             )
 
-        student_skills = Skill.objects.filter(userskill__user=request.user)
-        jobs = Job.objects.all()
+        profile = request.user.profile
+        student_skills = profile.skills.all()
 
+        jobs = Job.objects.all()
         recommended = recommend_jobs(student_skills, jobs)
+
         serializer = JobSerializer(recommended, many=True)
         return Response(serializer.data)

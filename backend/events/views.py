@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from notifications.models import Notification
+
 
 # Create your views here.
 from rest_framework import generics, permissions
@@ -12,7 +14,12 @@ class CreateEventView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated, IsAdmin | IsAlumni]
 
     def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
+        event = serializer.save(created_by=self.request.user)
+
+        Notification.objects.create(
+            user=self.request.user,
+            message=f"Event '{event.title}' was created successfully."
+    )
 
 
 class EventListView(generics.ListAPIView):
@@ -25,22 +32,14 @@ class RSVPView(generics.CreateAPIView):
     serializer_class = RSVPSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-from notifications.models import Notification
-from django.contrib.auth import get_user_model
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
-User = get_user_model()
 
-def perform_create(self, serializer):
-    event = serializer.save(created_by=self.request.user)
+class EventRSVPListView(generics.ListAPIView):
+    serializer_class = RSVPSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-    users = User.objects.all()
-
-    notifications = [
-        Notification(
-            user=user,
-            message=f"New event posted: {event.title}"
-        )
-        for user in users
-    ]
-
-    Notification.objects.bulk_create(notifications)
+    def get_queryset(self):
+        event_id = self.kwargs["event_id"]
+        return RSVP.objects.filter(event_id=event_id)
