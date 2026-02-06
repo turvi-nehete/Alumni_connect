@@ -29,6 +29,7 @@ urlpatterns = [
     path('api/events/',include('events.urls')),
     path('api/notifications/',include('notifications.urls')),
     path("api/analytics/", include("analytics.urls")),
+    path("api/achievements/", include("achievements.urls")),
 
 
 
