@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useEffect } from 'react'
+import Profile from './pages/Profile.jsx'
 
 import { useAuth } from './context/AuthContext.jsx'
 import AuthGuard from './components/AuthGuard.jsx'
@@ -53,6 +54,10 @@ function App() {
             path="/"
             element={<Navigate to="/public/home" replace />}
           />
+<Route path="/members" element={<Members />} />
+<Route element={<AuthGuard />}>
+  <Route path="/profile" element={<Profile />} />
+</Route>
 
           {/* Public routes */}
           <Route path="/public/home" element={<Home />} />

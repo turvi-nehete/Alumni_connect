@@ -74,10 +74,13 @@ function Navbar() {
 
   const privateLinks = [
     { to: '/dashboard', label: 'Dashboard' },
-    { to: '/directory', label: 'Directory' },
+   
     { to: '/jobs', label: 'Jobs' },
     { to: '/events', label: 'Events' },
-    { to: '/mentorship', label: 'Mentorship' },
+ 
+    { to: '/members', label: 'Members' },
+
+
     { to: '/messaging', label: 'Messaging' },
     { to: '/dashboard/donations', label: 'Donations' },
     { to: '/notifications', label: 'Notifications' },
@@ -128,21 +131,32 @@ function Navbar() {
           </button>
 
           {!isAuthenticated ? (
-            <Link
-              to="/login"
-              className="hidden rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] px-6 py-2 text-base font-semibold text-white shadow-[0_0_22px_rgba(99,102,241,0.7)] transition hover:shadow-[0_0_30px_rgba(124,58,237,0.8)] md:inline-flex"
-            >
-              Login
-            </Link>
-          ) : (
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="hidden rounded-full border border-[var(--color-border-soft)] px-6 py-2 text-base font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-card)] md:inline-flex"
-            >
-              Logout
-            </button>
-          )}
+  <Link
+    to="/login"
+    className="hidden rounded-full bg-gradient-to-r from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] px-4 py-1.5 text-sm font-semibold text-white shadow-[0_0_22px_rgba(99,102,241,0.7)] transition hover:shadow-[0_0_30px_rgba(124,58,237,0.8)] md:inline-flex"
+  >
+    Login
+  </Link>
+) : (
+  <div className="flex items-center gap-4">
+    <button
+      type="button"
+      onClick={handleLogout}
+      className="rounded-full border border-[var(--color-border-soft)] px-4 py-1.5 text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-card)]"
+    >
+      Logout
+    </button>
+
+    {/* Round Profile Icon */}
+    <Link
+      to="/profile"
+      className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-tr from-[var(--color-accent-indigo)] to-[var(--color-accent-purple)] text-white shadow-md transition hover:scale-105 hover:shadow-lg"
+    >
+      <span className="text-sm font-semibold">U</span>
+    </Link>
+  </div>
+)}
+
         </div>
 
       </div>
