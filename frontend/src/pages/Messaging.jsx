@@ -61,8 +61,13 @@ function Messaging() {
 
     // 4. Initialize WebSocket
     // Note: In production, use wss://
-    const wsUrl = `ws://127.0.0.1:8000/ws/chat/${activeChat}/?token=${token}`
-    const ws = new WebSocket(wsUrl)
+    const protocol = window.location.protocol === "https:" ? "wss" : "ws"
+const WS_BASE = `${protocol}://${window.location.host}`
+
+
+const wsUrl = `${WS_BASE}/ws/chat/${activeChat}/?token=${token}`
+const ws = new WebSocket(wsUrl)
+
 
     ws.onopen = () => {
       console.log("Connected to chat", activeChat)
