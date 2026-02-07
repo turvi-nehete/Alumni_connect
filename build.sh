@@ -1,15 +1,12 @@
 #!/bin/bash
 set -o errexit
 
-echo "Building Frontend..."
-cd frontend
-npm install
-npm run build
-cd ..
+echo "Using Pre-built Frontend (Skipping npm install)..."
+# We expect frontend/dist to be committed to the repo now.
 
 echo "Installing Backend..."
 cd backend
 pip install -r requirements.txt
-python3 manage.py collectstatic --noinput
-python3 manage.py migrate
+python manage.py collectstatic --noinput
+python manage.py migrate
 echo "Build Completed!"
