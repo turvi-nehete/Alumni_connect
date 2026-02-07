@@ -1,47 +1,29 @@
-"""
-URL configuration for alumniconnect project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include, re_path
+from django.views.generic import TemplateView
 
 urlpatterns = [
-
-    path("api/jobs/", include("jobs.urls")),
-    path("api/mentorship/", include("mentorship.urls")),
-    path("api/accounts/",include('accounts.urls')),
-    path("api/matchmaking/", include("matchmaking.urls")),
-    path("api/messaging/", include("messaging.urls")),
-    path("api/donations/", include("donations.urls")),
-    path('api/profiles/',include('profiles.urls')),
-    path('api/events/',include('events.urls')),
-    path('api/notifications/',include('notifications.urls')),
-    path("api/analytics/", include("analytics.urls")),
-    path("api/achievements/", include("achievements.urls")),
+    path('admin/', admin.site.urls),
+    path('api/accounts/', include('accounts.urls')),
+    path('api/profiles/', include('profiles.urls')),
+    path('api/matchmaking/', include('matchmaking.urls')),
+    path('api/mentorship/', include('mentorship.urls')),
+    path('api/jobs/', include('jobs.urls')),
+    path('api/events/', include('events.urls')),
+    path('api/achievements/', include('achievements.urls')),
+    path('api/donations/', include('donations.urls')),
+    path('api/messaging/', include('messaging.urls')),
+    path('api/notifications/', include('notifications.urls')),
+    path('api/analytics/', include('analytics.urls')),
 ]
+
 try:
-    urlpatterns += [
-        path("api/chatbot/", include("chatbot.urls")),
-    ]
-except ModuleNotFoundError:
+    urlpatterns.append(path("api/chatbot/", include("chatbot.urls")))
+except Exception:
     pass
 
-
-
-
-
-
-
-
+# Serve React Frontend (Catch-all)
+# This must be the last pattern
+urlpatterns += [
+    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'))
+]
