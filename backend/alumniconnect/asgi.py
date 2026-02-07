@@ -12,10 +12,11 @@ from channels.auth import AuthMiddlewareStack
 import alumniconnect.routing
 
 application = ProtocolTypeRouter({
-    "http": django_asgi_app,
     "websocket": AuthMiddlewareStack(
         URLRouter(
             alumniconnect.routing.websocket_urlpatterns
         )
     ),
+    "http": django_asgi_app,
 })
+
