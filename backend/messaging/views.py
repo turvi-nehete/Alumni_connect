@@ -82,3 +82,32 @@ class DeleteMessageView(APIView):
             return Response({"status": "deleted"})
         except Message.DoesNotExist:
             return Response({"error": "Message not found or unauthorized"}, status=404)
+from rest_framework.decorators import api_view, permission_classes
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def send_message(request, chat_id):
+    content = request.data.get("message")
+
+    if not content:
+        return Response({"error": "Empty message"}, status=400)
+
+    # Ensure user belongs to chat
+    try:
+        chat = Chat.objects.get(id=chat_id, participants=request.user)
+    except Chat.DoesNotExist:
+        return Response({"error": "Unauthorized chat"}, status=403)
+
+    msg = Message.objects.create(
+        chat=chat,
+        sender=request.user,
+        content=content
+    )
+
+    return Response({
+        "id": msg.id,
+        "sender": request.user.email,
+        "sender_name": f"{request.user.first_name} {request.user.last_name}".strip() or request.user.email,
+        "content": msg.content,
+        "timestamp": msg.created_at
+    })
