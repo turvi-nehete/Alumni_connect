@@ -193,3 +193,11 @@ CORS_ALLOWED_ORIGINS = [
     PRODUCTION_URL,
     "https://alumniconnect-backend-gdnq.onrender.com"
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://alumniconnect-backend-gdnq.onrender.com",
+    PRODUCTION_URL
+]
+
+# Use Console Email Backend to prevent 500 errors if SMTP is not configured
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
