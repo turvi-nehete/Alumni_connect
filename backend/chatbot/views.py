@@ -7,7 +7,7 @@ from rest_framework import status
 from openai import OpenAI
 from .services import chatbot_brain
 
-client = OpenAI()
+# client = OpenAI()  <-- specific removal to lazy load
 
 
 class ChatbotView(APIView):
@@ -19,11 +19,15 @@ class ChatbotView(APIView):
 
         # 🎤 Voice → Text
         if audio:
-            transcription = client.audio.transcriptions.create(
-                model="whisper-1",
-                file=audio
-            )
-            text = transcription.text
+            try:
+                client = OpenAI() # Lazy init
+                transcription = client.audio.transcriptions.create(
+                    model="whisper-1",
+                    file=audio
+                )
+                text = transcription.text
+            except Exception as e:
+                return Response({"error": f"Voice processing failed: {str(e)}"}, status=500)
 
         if not text:
             return Response(
@@ -41,13 +45,18 @@ class ChatbotView(APIView):
         )
 
         # 🔊 Text → Speech
-        speech = client.audio.speech.create(
-            model="gpt-4o-mini-tts",
-            voice="alloy",
-            input=reply_text
-        )
+        try:
+            client = OpenAI() # Lazy init
+            speech = client.audio.speech.create(
+                model="gpt-4o-mini-tts",
+                voice="alloy",
+                input=reply_text
+            )
+        except Exception:
+            # Fallback if TTS fails (e.g. no key) - just return text without audio
+            speech = None
 
-        audio_base64 = base64.b64encode(speech.read()).decode()
+        audio_base64 = base64.b64encode(speech.read()).decode() if speech else None
 
         return Response({
             "user_text": text,

@@ -1,7 +1,7 @@
 import os
 from openai import OpenAI
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY")) <-- Lazy load instead
 
 
 SYSTEM_PROMPT = """
@@ -29,9 +29,12 @@ def chatbot_brain(user_text, user_context=None):
             "content": f"User context: {user_context}"
         })
 
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=messages
-    )
-
-    return response.choices[0].message.content
+    try:
+        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=messages
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"I'm having trouble thinking right now. (Error: {str(e)})"
