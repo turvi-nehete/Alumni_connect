@@ -185,7 +185,11 @@ STATICFILES_DIRS = [
 ]
 
 
+PRODUCTION_URL = os.environ.get('PRODUCTION_URL', 'http://127.0.0.1:8000')
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    PRODUCTION_URL,
+    "https://alumniconnect-backend-gdnq.onrender.com"
 ]
